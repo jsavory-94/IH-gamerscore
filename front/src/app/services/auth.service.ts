@@ -52,7 +52,6 @@ export class AuthService {
     };
     return this.httpClient.post(`${this.API_URL}/signup`, user, options)
       .toPromise()
-      .then((data) => this.setUser(data));
   }
 
   logout(): Promise<any> {

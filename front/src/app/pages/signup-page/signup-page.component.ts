@@ -1,37 +1,41 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service'
 
 @Component({
-  selector: 'app-signup-page',
+  selector: 'signup-page',
   templateUrl: './signup-page.component.html',
-  styleUrls: ['./signup-page.component.css']
+  styleUrls: ['./signup-page.component.css'],
+  providers: [AuthService]
 })
+export class SignupPageComponent implements OnInit {
 
-export class SignupPageComponent {
+  user: any = {};
+  feedbackEnabled = false;
+  error = null;
+  processing = false;
+  
+  constructor(public auth: AuthService) { }
 
-  formInfo = {
-    username: '',
-    password: ''
-  };
-
-  user: any;
-  error: string;
-
-  constructor(private session: AuthService) { }
-
-  /*login() {
-    this.session.login(this.formInfo)
-      .subscribe(
-        (user) => this.user = user,
-        (err) => this.error = err
-      );
+  ngOnInit() {
   }
 
-  signup() {
-    this.session.signup(this.formInfo)
-      .subscribe(
-        (user) => this.user = user,
-        (err) => this.error = err
-      );
-  }
-}*/
+
+  submitForm(form) {
+    this.error = '';
+    this.feedbackEnabled = true;
+    if (form.valid) {
+      this.processing = true;
+      this.auth.signup(this.user)
+      //.then((result) => {
+      //     // ... handle result, reset form, etc...
+      //     // ... navigate with this.router.navigate(['...'])
+      //     // ... maybe turn this to false if your're staying on the page - this.processing = false;
+      //   })
+      //   .catch((err) => {
+      //     this.error = err.error.error; // :-)
+      //     this.processing = false;
+      //     this.feedbackEnabled = false;
+      //   });
+      }
+    }
+}
